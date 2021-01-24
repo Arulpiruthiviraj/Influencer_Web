@@ -31,21 +31,20 @@ const StepOne = ({
       zip: yup.string().required("Zip is Required"),
     }),
   });
-  function validateEmail(value) {
-    console.log(value);
-    let error;
-    verifyExistingEmail(value);
+  // function validateEmail(value) {
+  //   let error;
+  //   verifyExistingEmail(value);
 
-    if (!value) {
-      error = "Required";
-    } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value)) {
-      error = "Invalid email address";
-    } else if (err) {
-      error = err;
-    }
+  //   if (!value) {
+  //     error = "Required";
+  //   } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value)) {
+  //     error = "Invalid email address";
+  //   } else if (err) {
+  //     error = err;
+  //   }
 
-    return error;
-  }
+  //   return error;
+  // }
 
   return (
     <Formik
@@ -103,10 +102,11 @@ const StepOne = ({
                   name={"email"}
                   value={values.email}
                   onChange={handleChange}
-                  isInvalid={!!errors.email && !!err}
-                  validate={validateEmail}
+                  isInvalid={!!errors.email}
+
+                  // isInvalid={!!errors.email && !!err}
+                  // validate={validateEmail}
                 />{" "}
-                {console.log(!!errors.email && !!err, !!errors.email, !!err)}
                 <Form.Control.Feedback type="invalid">
                   {errors.email}
                 </Form.Control.Feedback>

@@ -18,6 +18,7 @@ import { connect } from "react-redux";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import { Formik } from "formik";
+import FormConfirm from "./Confirm";
 
 const FormMain = ({
   submitInfluencerForm,
@@ -61,6 +62,7 @@ const FormMain = ({
   };
   const [influencer, setInfluencer] = useState(initialFormState);
   const [showModal, setShowModal] = useState(influencerFormSubmissionModalOpen);
+
   // const handleOnChange = () => (e) => {
   //   if (e.target.type === "checkbox") {
   //     if (e.target.name === "favMusicGenre") {
@@ -102,9 +104,11 @@ const FormMain = ({
   //     influencerType: location.state.mainType,
   //   });
   // };
+  console.log("in submit funcion", influencerFormSubmissionModalOpen);
 
   const handleSubmit = () => {
-    console.log("in submit funcion", influencer);
+    // e.preventDefault();
+
     submitInfluencerForm(influencer);
     handleModalOpen();
   };
@@ -182,6 +186,15 @@ const FormMain = ({
                 prevStep={prevStep}
                 formData={influencer}
                 setFormData={setInfluencer}
+              />
+            );
+          case 8:
+            return (
+              <FormConfirm
+                nextStep={nextStep}
+                prevStep={prevStep}
+                formData={influencer}
+                setFormData={setInfluencer}
                 handleFormSubmit={handleSubmit}
               />
             );
@@ -195,15 +208,15 @@ const FormMain = ({
 
       <>
         <Modal
-          show={showModal}
+          show={influencerFormSubmissionModalOpen}
           onHide={handleModalClose}
           aria-labelledby="contained-modal-title-vcenter"
           centered
         >
           <Modal.Header closeButton>
-            <Modal.Title>Thanks for Submitting the Influencer Form</Modal.Title>
+            <Modal.Title>Muqo</Modal.Title>
           </Modal.Header>
-          <Modal.Body></Modal.Body>
+          <Modal.Body>Thanks for Submitting the Influencer Form</Modal.Body>
           <Modal.Footer>
             <Button variant="success" onClick={handleModalClose}>
               OK
@@ -230,4 +243,5 @@ export default connect(mapStateToProps, {
   submitInfluencerForm,
   nextStep,
   prevStep,
+  closeFormSubmissionSuccessModal,
 })(withRouter(FormMain));

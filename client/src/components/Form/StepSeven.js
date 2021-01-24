@@ -1,37 +1,28 @@
 import React, { useState, useEffect } from "react";
 import { Form, Button, Col } from "react-bootstrap";
 
-import { prevStep } from "../../redux/actions/influencersActions";
+import { prevStep, nextStep } from "../../redux/actions/influencersActions";
 import { withRouter } from "react-router-dom";
 
 import { connect } from "react-redux";
 import * as yup from "yup";
 import { Formik } from "formik";
 
-const StepSeven = ({ prevStep, formData, setFormData, handleFormSubmit }) => {
+const StepSeven = ({ prevStep, nextStep, formData, setFormData }) => {
   const [direction, setDirection] = useState("back");
 
   const schema = yup.object({
     canPromotePosts: yup.bool().required("This field  is Required"),
     shareRefCode: yup.bool().required("This field  is Required"),
   });
-  console.log(
-    "in sevem",
-    !!formData.canPromotePosts,
-    formData.canPromotePosts === null
-  );
 
-  // useEffect(() => {},[])
   return (
     <div>
       <Formik
         validationSchema={schema}
-        onSubmit={(values, actions) => {
+        onSubmit={(values) => {
           setFormData(values);
-          if (direction === "back") {
-            prevStep();
-          }
-          handleFormSubmit();
+          direction === "back" ? prevStep() : nextStep();
         }}
         initialValues={formData}
       >
@@ -39,7 +30,6 @@ const StepSeven = ({ prevStep, formData, setFormData, handleFormSubmit }) => {
           <Form noValidate onSubmit={handleSubmit}>
             <Form.Group>
               <Form.Row>
-                {console.log(errors, values)}
                 <Form.Group as={Col} controlId="formGridUsedApp">
                   <Form.Label>
                     Once accepted as a Verified influencer partner do you give
@@ -55,6 +45,7 @@ const StepSeven = ({ prevStep, formData, setFormData, handleFormSubmit }) => {
                     name="canPromotePosts"
                     id={`canPromotePosts-custom-inline-checkbox-5`}
                     value={true}
+                    // checked={values.canPromotePosts}
                     onChange={handleChange}
                     isInvalid={!!errors.canPromotePosts}
                   />
@@ -65,6 +56,7 @@ const StepSeven = ({ prevStep, formData, setFormData, handleFormSubmit }) => {
                     type={"radio"}
                     name="canPromotePosts"
                     onChange={handleChange}
+                    // checked={values.canPromotePosts}
                     isInvalid={!!errors.canPromotePosts}
                     id={`canPromotePosts-custom-inline-checkbox-6`}
                     value={false}
@@ -118,11 +110,11 @@ const StepSeven = ({ prevStep, formData, setFormData, handleFormSubmit }) => {
               </div>
               <div className="col-6 text-right">
                 <Button
-                  variant="success"
+                  variant="primary"
                   type="submit"
                   onClick={() => setDirection("forward")}
                 >
-                  Submit
+                  Continue
                 </Button>
               </div>
             </div>
@@ -135,4 +127,5 @@ const StepSeven = ({ prevStep, formData, setFormData, handleFormSubmit }) => {
 
 export default connect(null, {
   prevStep,
+  nextStep,
 })(withRouter(StepSeven));
